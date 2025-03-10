@@ -1,0 +1,14 @@
+﻿@model AuthenticationWitthJWT.Entitys.User
+
+@{
+    ViewData["Title"] = "Registration Successful";
+}
+
+<h2>Registration Successful</h2>
+
+<div class="card p-4 shadow-sm">
+    <h4 class="text-success">Welcome, @Model.Username!</h4>
+    <p><strong>Hashed Password:</strong> <code>@Model.Password</code></p>
+</div>
+
+<a href="/" class="btn btn-primary mt-3">Go Home</a>
