@@ -31,11 +31,8 @@ namespace AuthenticationWitthJWT.Controllers
         {
             if (!ModelState.IsValid) return View(userDto);
 
-            var hasher = new PasswordHasher<User>();
-            _user.Username = userDto.Username;
-            _user.Password = hasher.HashPassword(_user, userDto.Password);
-
-            return View("RegistrationSuccess", _user);
+            var user = _authService.Register(userDto);
+            return View("RegistrationSuccess", user);
         }
 
         [HttpGet]
