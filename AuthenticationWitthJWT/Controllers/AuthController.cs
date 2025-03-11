@@ -7,29 +7,42 @@ namespace AuthenticationWitthJWT.Controllers
 {
     public class AuthController : Controller
     {
-        public static  User _user = new();
+        public static User _user = new();
         //[Route("")]
         public IActionResult Index()
         {
             return View();
         }
         [HttpGet]
-        public IActionResult Registration() 
-        { 
-            return View(); 
+        public IActionResult Registration()
+        {
+            return View();
         }
 
 
         [HttpPost]
-        public IActionResult Registration( UserDto userDto)
+        public IActionResult Registration(UserDto userDto)
         {
-            if (!ModelState.IsValid) return View(userDto); 
+            if (!ModelState.IsValid) return View(userDto);
 
             var hasher = new PasswordHasher<User>();
             _user.Username = userDto.Username;
             _user.Password = hasher.HashPassword(_user, userDto.Password);
 
             return View("RegistrationSuccess", _user);
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login(UserDto userDto)
+        {
+            
+            return View();
         }
     }
 }
