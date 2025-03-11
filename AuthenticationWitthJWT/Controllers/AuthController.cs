@@ -1,5 +1,6 @@
 ﻿using AuthenticationWitthJWT.DTOs;
 using AuthenticationWitthJWT.Entitys;
+using AuthenticationWitthJWT.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,8 +8,13 @@ namespace AuthenticationWitthJWT.Controllers
 {
     public class AuthController : Controller
     {
+        private readonly IAuthServices _authService;
         public static User _user = new();
-        //[Route("")]
+
+        public AuthController(IAuthServices authservices)
+        {
+            _authService = authservices;
+        }
         public IActionResult Index()
         {
             return View();
@@ -21,7 +27,7 @@ namespace AuthenticationWitthJWT.Controllers
 
 
         [HttpPost]
-        public IActionResult Registration(UserDto userDto)
+        public IActionResult Registration(User userDto)
         {
             if (!ModelState.IsValid) return View(userDto);
 
@@ -39,9 +45,14 @@ namespace AuthenticationWitthJWT.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(UserDto userDto)
+        public IActionResult Login(User userDto)
         {
-            
+            if (_authService.Login(userDto))
+            {
+                return View("LoginSuccess", userDto);
+            }
+
+            ViewBag.Error = "Invalid credentials.";
             return View();
         }
     }
